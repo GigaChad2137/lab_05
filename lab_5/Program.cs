@@ -16,26 +16,51 @@ namespace lab_05
         }
         public static void Main()
         {
-
-            //ObservableList2<string> carCompterEvent = new ObservableList2<string>();
-
-            //carCompterEvent.Add2eventlog += new ObservableList2<string>.Add2Handler(DisplayInformation);
-            //carCompterEvent.Update2eventlog += new ObservableList2<string>.Update2Handler(DisplayInformation);
-            //carCompterEvent.Delete2eventlog += new ObservableList2<string>.Deleted2Handler(DisplayInformation);
-
-            //carCompterEvent.Add("element 0");
-            //carCompterEvent.Add("element 1");
-            //carCompterEvent.Add("element 2");
-            //carCompterEvent.Add("element 3");
-            //carCompterEvent.Set(0,"zmieniony");
-            //carCompterEvent.RemoveAt(2);
-            //for(int i=0; i < carCompterEvent.lenght; i++)
+            //ObservableList1<string> observablelist1 = new ObservableList1<string>();
+            //observablelist1.Add("test 0 ");
+            //observablelist1.Add("test 1 ");
+            //observablelist1.Add("test 2 ");
+            //observablelist1.Add("test 3 ");
+            //observablelist1.Add("test 4 ");
+            //observablelist1.Set(1,"bałkany ");
+            //observablelist1.RemoveAt(0);
+            //for(int i=0; i < observablelist1.lenght; i++)
             //{
-            //    carCompterEvent.Get(i);
+            //    observablelist1.Get(i);
             //}
-            string dest = "test";
-            ObservableList2<string> list_lambda = new ObservableList2<string>();
-            del Add = x => list_lambda.Add(dest);
+
+            // ObservableList2<string> observablelist2 = new ObservableList2<string>();
+            //observablelist2.Add2eventlog += new ObservableList2<string>.Add2Handler(DisplayInformation);
+            //observablelist2.Update2eventlog += new ObservableList2<string>.Update2Handler(DisplayInformation);
+            //observablelist2.Delete2eventlog += new ObservableList2<string>.Deleted2Handler(DisplayInformation);
+
+            //observablelist2.Add("element 0");
+            //observablelist2.Add("element 1");
+            //observablelist2.Add("element 2");
+            //observablelist2.Add("element 3");
+            //observablelist2.Set(0,"zmieniony");
+            //observablelist2.RemoveAt(2);
+            //for(int i=0; i < observablelist2.lenght; i++)
+            //{
+            //    observablelist2.Get(i);
+            //}
+
+            //ObservableList3<string> observableList3 = new ObservableList3<string>();
+            //observableList3.Add("do usuniecia");
+            //observableList3.RemoveAt(0);
+            //observableList3.Add("tescior");
+            //observableList3.Add("tescior");
+            //observableList3.Add("tescior");
+            //observableList3.Add("tescior");
+            //observableList3.Add("tescior");
+            //observableList3.Add("tescior");
+
+            //for(int i =0;i< observableList3.lenght; i++)
+            //{
+            //    observableList3.Get(i);
+            //}
+             ObservableList1_lambda<string> observablelist1_lambda = new ObservableList1_lambda<string>();
+          
         }
 
     }
@@ -74,8 +99,10 @@ namespace lab_05
         private List<T> container = new List<T>();
 
         // A method that adds strings to the collection.
+       
         internal void Add(T str)
         {
+
             container.Add(str);
             OnAddtolist(str);
         }
@@ -112,7 +139,7 @@ namespace lab_05
     {
         public delegate void NumberManipulationHandler();
         public delegate string Message(int index, T value);
-
+        public delegate string Messa();
         // Define a delegate to handle string display.
         public event NumberManipulationHandler Added;
         public event NumberManipulationHandler Updated;
@@ -146,14 +173,19 @@ namespace lab_05
         // A generic list object that holds the strings.
         private List<T> container = new List<T>();
 
-        del Add = x => container.Add(x);
+
         // A method that adds strings to the collecti
         // on.
 
         //  Add(5);
         // OnAddtolist(str);
+        Messa sayHello = () => "Hello!!!";
+        internal void Add(T str)
+        {
 
-
+            container.Add(str);
+            OnAddtolist(str);
+        }
         internal void RemoveAt(int index)
         {
             container.RemoveAt(index);
@@ -166,6 +198,8 @@ namespace lab_05
             this.container[index] = value;
             OnUpdatetolist(index, value);
         }
+
+
         internal void Get(int index)
         {
             T value = this.container[index];
@@ -193,12 +227,8 @@ namespace lab_05
         public delegate void Deleted2Handler(string add);
         public event Deleted2Handler Delete2eventlog;
         public delegate string Message(int index, T value);
-
-
-
         // A generic list object that holds the strings.
         private List<T> container = new List<T>();
-
         // A method that adds strings to the collection.
         internal void Add(T str)
         {
@@ -242,9 +272,9 @@ namespace lab_05
             // istniejącego delegata Add2Handler
             // Delegat ten jest sygnaturą metody, króra jest wykorzystywna w naszym zdarzeniu
             // Dlatego też, jako parametr naszego zdarzenia przekazujemy 'string'
-            if (Add2eventlog != null)
+            if (Update2eventlog != null)
             {
-                Add2eventlog(information);
+                Update2eventlog(information);
             }
         }
         protected void OnDelete2eventlog(string information)
@@ -253,12 +283,60 @@ namespace lab_05
             // istniejącego delegata Add2Handler
             // Delegat ten jest sygnaturą metody, króra jest wykorzystywna w naszym zdarzeniu
             // Dlatego też, jako parametr naszego zdarzenia przekazujemy 'string'
-            if (Add2eventlog != null)
+            if (Delete2eventlog != null)
             {
-                Add2eventlog(information);
+                Delete2eventlog(information);
             }
         }
         public int lenght { get { return container.Count; } }
+
+    }
+    class ObservableList3<T>
+    {
+        public delegate string Updated(int index, T value);
+        public delegate string Added(T value);
+        public delegate string Removed(int message);
+        public delegate string Message(int index, T value);
+        private List<T> container = new List<T>();
+        internal void Add(T str)
+        {
+            container.Add(str);
+            Added added = (T str) =>
+            {
+                return $"Dodano {str} ";
+            };
+            Console.WriteLine(added(str));
+        }
+        internal void RemoveAt(int index)
+        {
+            container.RemoveAt(index);
+            Removed updated = (int index) =>
+            {
+                return $"Usunięto element z index: {index} ";
+            };
+            Console.WriteLine(updated(index));
+        }
+        internal void Set(int index, T value)
+        {
+            this.container[index] = value;
+            Updated updated = (int index, T value) =>
+            {
+                return $"Zaktualizowano element index: {index} value: {value} ";
+            };
+            Console.WriteLine(updated(index, value));
+        }
+        internal void Get(int index)
+        {
+            T value = this.container[index];
+            Message whatuget = (int index, T value) =>
+            {
+                return $"Element mający index: {index} value: {value}";
+            };
+            Console.WriteLine(whatuget(index, value));
+        }
+        public int lenght { get { return container.Count; } }
+
+
 
     }
 }
